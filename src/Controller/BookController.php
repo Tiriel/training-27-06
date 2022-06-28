@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +30,18 @@ class BookController extends AbstractController
     {
         return $this->render('book/index.html.twig', [
             'controller_name' => 'Paginated',
+        ]);
+    }
+
+    /**
+     * @Route("/{id<\d+>}", name="details")
+     */
+    public function details(int $id, BookRepository $repository): Response
+    {
+        $book = $repository->find($id);
+
+        return $this->render('book/index.html.twig', [
+            'book' => $book,
         ]);
     }
 }
