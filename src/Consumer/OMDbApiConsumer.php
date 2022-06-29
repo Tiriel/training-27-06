@@ -3,6 +3,7 @@
 namespace App\Consumer;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OMDbApiConsumer
@@ -33,12 +34,18 @@ class OMDbApiConsumer
             throw new \RuntimeException(sprintf("Unknown fetch type: %s", $fetch));
         }
 
-        return $this->omdbClient->request(
+        $data = $this->omdbClient->request(
             Request::METHOD_GET,
             '',
             [
                 'query' => [$fetch => $value],
             ]
         )->toArray();
+
+        if (array_key_exists('Response', $data) && $data['Response'] === 'False') {
+            throw new NotFoundHttpException(sprintf("Movie %s was not found.", $value));
+        }
+
+        return $data;
     }
 }

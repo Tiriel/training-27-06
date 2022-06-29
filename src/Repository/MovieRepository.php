@@ -51,7 +51,7 @@ class MovieRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
-    
+
 //    /**
 //     * @return Movie[] Returns an array of Movie objects
 //     */

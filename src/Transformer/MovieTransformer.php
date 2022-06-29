@@ -24,7 +24,7 @@ class MovieTransformer implements TransformerInterface
             ->setTitle($data['Title'])
             ->setPoster($data['Poster'])
             ->setCountry($data['Country'])
-            ->setReleasedAt($date)
+            ->setReleasedAt(new \DateTimeImmutable($date))
             ->setPrice(5.0)
             ;
 

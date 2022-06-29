@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Provider\MovieProvider;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,10 +25,12 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @Route("/{id<\d+>}", name="details", methods={"GET"})
+     * @Route("/{title}", name="details", methods={"GET"})
      */
-    public function details(Movie $movie): Response
+    public function details(string $title, MovieProvider $provider): Response
     {
+        $movie = $provider->getMovieByTitle($title);
+
         return $this->render('movie/details.html.twig', [
             'movie' => $movie
         ]);
