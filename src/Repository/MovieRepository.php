@@ -40,6 +40,18 @@ class MovieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneByTitle(string $title)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->andWhere($qb->expr()->eq(
+            $qb->expr()->lower('m.title'),
+            ':title'))
+            ->setParameter('title', strtolower($title), \PDO::PARAM_STR)
+            ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+    
 //    /**
 //     * @return Movie[] Returns an array of Movie objects
 //     */
