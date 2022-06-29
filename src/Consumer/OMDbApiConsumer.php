@@ -10,7 +10,12 @@ class OMDbApiConsumer
     public const TYPE_ID = 'i';
     public const TYPE_TITLE = 't';
 
-    //...
+    private $omdbClient;
+
+    public function __construct(HttpClientInterface $omdbClient)
+    {
+        $this->omdbClient = $omdbClient;
+    }
 
     public function getMovieById(string $id): array
     {
