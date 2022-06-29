@@ -50,10 +50,15 @@ class BookController extends AbstractController
     /**
      * @Route("/new", name="new")
      */
-    public function new()
+    public function new(Request $request): Response
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump($book);
+        }
 
         return $this->renderForm('book/new.html.twig', [
             'book_form' => $form,
