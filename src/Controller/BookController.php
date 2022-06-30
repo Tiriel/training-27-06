@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,6 +42,9 @@ class BookController extends AbstractController
     public function details(int $id, BookRepository $repository): Response
     {
         $book = $repository->find($id);
+        if (!$this->isGranted('BOOK_EDIT', $book)) {
+            // ...
+        }
 
         return $this->render('book/index.html.twig', [
             'book' => $book,

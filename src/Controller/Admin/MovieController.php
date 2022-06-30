@@ -61,6 +61,9 @@ class MovieController extends AbstractController
      */
     public function edit(Request $request, Movie $movie, MovieRepository $movieRepository): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN') || !$this->isGranted('movie_edit', $movie)) {
+            throw new \RuntimeException();
+        }
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
 
