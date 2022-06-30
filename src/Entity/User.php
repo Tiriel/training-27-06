@@ -42,6 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $birthday;
 
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $lastConnectionAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -139,6 +144,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthday(?\DateTimeImmutable $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getLastConnectionAt(): ?\DateTimeImmutable
+    {
+        return $this->lastConnectionAt;
+    }
+
+    public function setLastConnectionAt(?\DateTimeImmutable $lastConnectionAt): self
+    {
+        $this->lastConnectionAt = $lastConnectionAt;
 
         return $this;
     }
