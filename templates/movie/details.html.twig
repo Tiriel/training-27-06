@@ -10,6 +10,7 @@
     <ul>
         <li>Id : {{ movie.id }}</li>
         <li>Country : {{ movie.country }}</li>
+        <li>MPAA Rating : {{ movie.rated }}</li>
         <li>Released at: {{ movie.releasedAt|date('Y M d') }}</li>
         <li>Genres: {{ movie.genres|reduce((carry, genre) => carry == '' ? genre.name : carry ~ ', ' ~ genre.name) }}</li>
     </ul>

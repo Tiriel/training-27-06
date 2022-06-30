@@ -5,10 +5,12 @@ namespace App\Controller\Admin;
 use App\Entity\Movie;
 use App\Form\MovieType;
 use App\Repository\MovieRepository;
+use App\Security\Voter\MovieVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin/movie")
@@ -61,9 +63,10 @@ class MovieController extends AbstractController
      */
     public function edit(Request $request, Movie $movie, MovieRepository $movieRepository): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN') || !$this->isGranted('movie_edit', $movie)) {
-            throw new \RuntimeException();
+        if (!$this->isGranted('ROLE_ADMIN') || !$this->isGranted(MovieVoter::EDIT, $movie)) {
+            throw new AccessDeniedException();
         }
+
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
 
